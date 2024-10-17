@@ -17,7 +17,7 @@ function CopyField(props: CopyFieldProps) {
 			} else {
 				const textArea = document.createElement('textarea');
 
-				textArea.style.position = 'absolute';
+				textArea.style.position = 'fixed';
 				textArea.style.left = '-999999px';
 				textArea.value = props.value;
 
