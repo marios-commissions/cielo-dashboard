@@ -19,7 +19,7 @@ function CopyField(props: CopyFieldProps) {
 
 				textArea.style.position = 'absolute';
 				textArea.style.left = '-999999px';
-				textArea.value = text;
+				textArea.value = props.value;
 
 				document.body.appendChild(textArea);
 				textArea.focus();
