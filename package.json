@@ -1,0 +1,29 @@
+{
+  "name": "gem-finder-dashboard",
+  "module": "src/index.ts",
+  "version": "1.0.0",
+  "author": "Mario Paraschiv (me@marioparaschiv.com)",
+  "license": "Unlicensed",
+  "scripts": {
+    "build": "swc src -d dist -D --delete-dir-on-start --strip-leading-paths"
+  },
+  "peerDependencies": {
+    "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "@swc/cli": "0.4.1-nightly.20240914",
+    "@swc/core": "^1.7.36",
+    "@types/node": "^22.7.5",
+    "@types/ws": "^8.5.12"
+  },
+  "dependencies": {
+    "elevenlabs": "^0.17.1",
+    "input": "^1.0.1",
+    "telegram": "2.25.15",
+    "ws": "^8.18.0"
+  },
+  "trustedDependencies": [
+    "core-js",
+    "es5-ext"
+  ]
+}

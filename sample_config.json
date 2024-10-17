@@ -1,0 +1,26 @@
+{
+	"elevenlabs": {
+		"apiKey": "xxx",
+		"voiceId": "xxx"
+	},
+	"accounts": [
+		{
+			"apiId": 1234,
+			"apiHash": "xxx",
+			"phone": "+1234"
+		},
+		{
+			"apiId": 1234,
+			"apiHash": "xxx",
+			"phone": "+1234"
+		}
+	],
+	"minimumBuys": {
+		"display": 1,
+		"tts": 1
+	},
+	"web": {
+		"externalIp": "localhost",
+		"port": 5299
+	}
+}
