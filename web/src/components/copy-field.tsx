@@ -12,7 +12,27 @@ function CopyField(props: CopyFieldProps) {
 
 	useEffect(() => {
 		if (copied) {
-			navigator.clipboard.writeText(props.value);
+			if (navigator.clipboard) {
+				navigator.clipboard.writeText(props.value);
+			} else {
+				const textArea = document.createElement('textarea');
+
+				textArea.style.position = 'absolute';
+				textArea.style.left = '-999999px';
+				textArea.value = text;
+
+				document.body.appendChild(textArea);
+				textArea.focus();
+				textArea.select();
+
+				try {
+					document.execCommand('copy');
+				} catch (err) {
+					console.error('Unable to copy to clipboard', err);
+				} finally {
+					textArea.remove();
+				}
+			};
 
 			const timeout = setTimeout(() => setCopied(false), 1000);
 			return () => clearTimeout(timeout);
