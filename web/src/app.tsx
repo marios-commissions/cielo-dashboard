@@ -25,7 +25,7 @@ function App() {
 			{Object.keys(data.payload.store).length !== 0 && sortedData.map(([address, updates]) => {
 				return (
 					<div key={address} className='flex p-2 w-full rounded-md bg-neutral-800 border border-neutral-700 items-start overflow-clip'>
-						<div className='flex flex-col' key={address}>
+						<div className='flex flex-col overflow-hidden' key={address}>
 							<span>
 								<span className='text-xl font-bold'>{updates.length}</span> buy{updates.length > 1 ? 's' : ''}
 							</span>
