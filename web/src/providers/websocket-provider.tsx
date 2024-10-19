@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 
+import { playQueue, queue } from '../utilities/audio';
 import config from '../../../config.json';
 import sleep from '../utilities/sleep';
 
@@ -24,6 +25,7 @@ type Data = {
 
 type DataProviderState = {
 	ws: WebSocket | null;
+	isDataReady: boolean;
 	isLoading: boolean;
 	setData: (data: Data) => void;
 	data: Data;
@@ -33,12 +35,14 @@ const initial = {
 	data: { payload: { store: {}, charts: {}, names: {} } },
 	ws: null,
 	isLoading: true,
+	isDataReady: false,
 	setData: () => null
 };
 
 const DataProviderContext = createContext<DataProviderState>(initial);
 
 function DataProvider({ children, ...props }: DataProviderProps) {
+	const [isDataReady, setIsDataReady] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [data, setData] = useState<Data>({ payload: { store: {}, charts: {}, names: {} } });
 
@@ -47,8 +51,7 @@ function DataProvider({ children, ...props }: DataProviderProps) {
 	const ctx = {
 		data,
 		setData,
-
-
+		isDataReady,
 		isLoading,
 		get ws() {
 			return ws.current;
@@ -89,9 +92,9 @@ function DataProvider({ children, ...props }: DataProviderProps) {
 				try {
 					if (event.data instanceof ArrayBuffer) {
 						const blob = new Blob([event.data]);
-						const src = URL.createObjectURL(blob);
-						const audio = new Audio(src);
-						audio.play();
+						queue.push(blob);
+
+						playQueue();
 
 						return;
 					}
@@ -100,8 +103,8 @@ function DataProvider({ children, ...props }: DataProviderProps) {
 
 					switch (payload.type) {
 						case 'STORE_UPDATE': {
-							console.log(payload);
 							setData({ payload: payload.data });
+							if (!isDataReady) setIsDataReady(true);
 						} break;
 					}
 				} catch (e) {

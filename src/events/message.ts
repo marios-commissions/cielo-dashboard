@@ -21,11 +21,11 @@ export async function handler(event: NewMessageEvent) {
 	if (!address) return;
 
 	if (!store.getName(address)) {
-		const name = await getTokenNameByAddress(address);
+		const name = await getTokenNameByAddress(address, address.startsWith('0x'));
 		if (name) store.setName(address, name);
 	}
 
-
+	const name = store.getName(address);
 	const links = Parser.parseLinks(event.message);
 
 	const [buyer] = event.message.text.split('\n');
@@ -38,14 +38,11 @@ export async function handler(event: NewMessageEvent) {
 	const updates = store.store[address] ?? [];
 
 	if (updates?.length >= config.minimumBuys.tts) {
-		const name = store.getName(address);
 		const stream = await ElevenLabs.textToSpeech.convert(config.elevenlabs.voiceId, {
 			text: `${updates.length} wallets bought ${name}`
 		});
 
-		console.info('Streaming...');
 		const content = await streamToString(stream);
-		console.log('Streamed.');
 
 		events.emit('tts', content?.buffer);
 	}
@@ -57,14 +54,23 @@ export async function handler(event: NewMessageEvent) {
 	store.setChart(address, chart);
 }
 
-async function getTokenNameByAddress(address: string) {
-	console.log(address);
+async function getPumpFunNameByAddress(address: string) {
+	const request = await fetch('https://frontend-api.pump.fun/coins/' + address).catch(() => null);
+	if (!request) return 'Unknown';
+
+	const json = await request.json();
+
+	return json && `${json.name} (${json.symbol})`;
+}
+
+async function getTokenNameByAddress(address: string, isEthereum = false) {
+	if (!isEthereum) return getPumpFunNameByAddress(address);
+
 	const request = await fetch('https://api.dexscreener.com/latest/dex/tokens/' + address).catch(() => null);
 	if (!request) return 'Unknown';
 
 	const json = await request.json();
 	const firstPair = json?.pairs?.[0];
 
-	console.log(json);
 	return firstPair && `${firstPair.baseToken?.name} (${firstPair.baseToken?.symbol})`;
 }

@@ -67,7 +67,6 @@ class Store {
 	}
 
 	persist() {
-		console.log('persisting');
 		writeFileSync(this.file, JSON.stringify({
 			store: this.store,
 			charts: this.charts,
