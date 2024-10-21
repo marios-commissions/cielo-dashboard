@@ -39,7 +39,7 @@ export async function handler(event: NewMessageEvent) {
 
 	if (updates?.length >= config.minimumBuys.tts) {
 		const stream = await ElevenLabs.textToSpeech.convert(config.elevenlabs.voiceId, {
-			text: `${updates.length} wallets bought ${name}`
+			text: `${name}, ${updates.length}`
 		});
 
 		const content = await streamToString(stream);
