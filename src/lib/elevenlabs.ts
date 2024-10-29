@@ -1,8 +1,8 @@
+import credentials from '~/../credentials.json';
 import { ElevenLabsClient } from 'elevenlabs';
-import config from '~/../config.json';
 
 
-const client = new ElevenLabsClient({ apiKey: config.elevenlabs.apiKey });
+const client = new ElevenLabsClient({ apiKey: credentials.elevenlabs.apiKey });
 
 export async function initialize() {
 	console.log('ElevenLabs initialized.');

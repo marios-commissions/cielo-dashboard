@@ -1,7 +1,7 @@
 import '~/lib/web';
 
+import credentials from '~/../credentials.json';
 import { initialize } from '~/lib/elevenlabs';
-import config from '~/../config.json';
 import { Client } from '~/lib';
 
 
@@ -10,7 +10,7 @@ global.clients = [];
 async function init() {
 	await initialize();
 
-	for (const account of config.accounts) {
+	for (const account of credentials.accounts) {
 		try {
 			const client = new Client(account);
 			await client.initialize();
