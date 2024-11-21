@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 
-import { playQueue, queue } from '../utilities/audio';
+import { queue } from '../utilities/audio';
 import config from '../../../config.json';
 import sleep from '../utilities/sleep';
 
@@ -90,21 +90,20 @@ function DataProvider({ children, ...props }: DataProviderProps) {
 
 			socket.addEventListener('message', (event) => {
 				try {
-					if (event.data instanceof ArrayBuffer) {
-						const blob = new Blob([event.data]);
-						queue.push(blob);
-
-						playQueue();
-
-						return;
-					}
-
 					const payload = JSON.parse(event.data);
 
 					switch (payload.type) {
 						case 'STORE_UPDATE': {
 							setData({ payload: payload.data });
 							if (!isDataReady) setIsDataReady(true);
+						} break;
+
+						case 'TTS': {
+							payload.data;
+							const msg = new SpeechSynthesisUtterance();
+							msg.text = payload.data;
+
+							queue.push(msg);
 						} break;
 					}
 				} catch (e) {

@@ -22,8 +22,13 @@ ws.on('connection', (socket) => {
 		socket.send(payload);
 	}
 
-	function sendTTS(file: ArrayBufferLike) {
-		socket.send(file);
+	function sendTTS(content: string) {
+		const payload = JSON.stringify({
+			type: 'TTS',
+			data: content
+		});
+
+		socket.send(payload);
 	}
 
 	events.on('store-updated', sendUpdate);

@@ -1,6 +1,4 @@
 import { NewMessage, type NewMessageEvent } from 'telegram/events';
-import streamToString from '~/utils/streamToString';
-import ElevenLabs from '~/lib/elevenlabs';
 import config from '~/../config.json';
 import Parser from '~/lib/parser';
 import events from '~/lib/events';
@@ -38,13 +36,7 @@ export async function handler(event: NewMessageEvent) {
 	const updates = store.store[address] ?? [];
 
 	if (updates?.length >= config.minimumBuys.tts) {
-		const stream = await ElevenLabs.textToSpeech.convert(config.elevenlabs.voiceId, {
-			text: `${name}, ${updates.length}`
-		});
-
-		const content = await streamToString(stream);
-
-		events.emit('tts', content?.buffer);
+		events.emit('tts', `${name}, ${updates.length}`);
 	}
 
 

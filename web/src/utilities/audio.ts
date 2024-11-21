@@ -1,7 +1,7 @@
 import sleep from './sleep';
 
 
-export const queue: Blob[] = [];
+export const queue: SpeechSynthesisUtterance[] = [];
 
 let isPlaying = false;
 
@@ -12,13 +12,11 @@ export function playQueue() {
 
 	const playNext = async () => {
 		while (queue.length > 0) {
-			const blob = queue.shift(); // Get the next audio blob
-			if (!blob) continue;
+			const msg = queue.shift(); // Get the next audio msg
+			if (!msg) continue;
 
-			const src = URL.createObjectURL(blob);
-			const audio = new Audio(src);
 
-			await playAudio(audio);
+			await playAudio(msg);
 			await sleep(1000); // Wait 1 second between speeches
 		}
 
@@ -29,9 +27,9 @@ export function playQueue() {
 }
 
 
-function playAudio(audio: InstanceType<typeof Audio>) {
+function playAudio(audio: SpeechSynthesisUtterance) {
 	return new Promise((resolve) => {
-		audio.play();
-		audio.onended = resolve;
+		audio.onend = resolve;
+		speechSynthesis.speak(audio);
 	});
 }
