@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 
-import { queue } from '../utilities/audio';
+import { playQueue, queue } from '../utilities/audio';
 import config from '../../../config.json';
 import sleep from '../utilities/sleep';
 
@@ -104,6 +104,7 @@ function DataProvider({ children, ...props }: DataProviderProps) {
 							msg.text = payload.data;
 
 							queue.push(msg);
+							playQueue();
 						} break;
 					}
 				} catch (e) {
