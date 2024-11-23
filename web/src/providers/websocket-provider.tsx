@@ -99,7 +99,7 @@ function DataProvider({ children, ...props }: DataProviderProps) {
 						} break;
 
 						case 'TTS': {
-							payload.data;
+							console.log('TTS Message Queued:', payload.data);
 							const msg = new SpeechSynthesisUtterance();
 							msg.text = payload.data;
 
