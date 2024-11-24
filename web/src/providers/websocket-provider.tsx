@@ -92,6 +92,8 @@ function DataProvider({ children, ...props }: DataProviderProps) {
 				try {
 					const payload = JSON.parse(event.data);
 
+					console.log(payload);
+
 					switch (payload.type) {
 						case 'STORE_UPDATE': {
 							setData({ payload: payload.data });
