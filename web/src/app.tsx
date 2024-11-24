@@ -95,32 +95,6 @@ function App() {
 			setHiddenTokens(currentHiddenTokens);
 		}
 	}, [sortedData, hiddenTokens, isDataReady]);
-	// useEffect(() => {
-	// 	if (!isDataReady) return;
-
-	// 	const allTokens = sortedData.flatMap(([, coins]) => Object.keys(coins));
-	// 	const validHiddenTokens = Object.entries(hiddenTokens).reduce((acc, [address, { count }]) => {
-	// 		if (allTokens.includes(address)) {
-	// 			const currentBuys = Object.keys(grouped).reduce((acc, key) => {
-	// 				return grouped[key][address] ? grouped[key][address].length : acc;
-	// 			}, 0);
-
-	// 			if (currentBuys > count) {
-	// 				// Unhide the token and update the count if buys have increased
-	// 				acc[address] = { count: currentBuys };
-	// 			} else {
-	// 				acc[address] = { count };
-	// 			}
-	// 		}
-	// 		return acc;
-	// 	}, {});
-
-	// Only update hiddenTokens if the new state is different from the current state
-	// 	if (JSON.stringify(validHiddenTokens) !== JSON.stringify(hiddenTokens)) {
-	// 		setHiddenTokens(validHiddenTokens);
-	// 	}
-	// }, [isDataReady, sortedData, grouped, hiddenTokens]);
-
 
 	return (
 		<div className='flex flex-col'>
@@ -146,8 +120,8 @@ function App() {
 
 			{filteredData.map(([amount, coins]) => Object.keys(coins).length && (
 				<>
-					<div key={amount} className='flex gap-6 px-4 py-2 w-full'>
-						<span className='text-2xl font-bold min-w-[50px]'>{amount}</span>
+					<div key={Object.keys(coins).join(',')} className='flex gap-6 px-4 py-2 w-full'>
+						<span className='text-2xl font-bold min-w-[50px]'>{amount.toString()}</span>
 						<div className='w-full grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-2'>
 							{Object.entries(coins).map(([address, updates]) => {
 								const currentBuys = updates.length;

@@ -42,7 +42,7 @@ ws.on('connection', (socket) => {
 		events.off('tts', sendTTS);
 	});
 
-	sendUpdate();
+	setTimeout(() => sendUpdate(), 500);
 });
 
 ws.on('listening', () => {
