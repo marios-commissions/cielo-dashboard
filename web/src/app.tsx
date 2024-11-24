@@ -26,7 +26,7 @@ function App() {
 			const buys = updates.length;
 
 			// Skip if buys are below minimum display threshold
-			if (buys < config.minimumBuys.display) continue;
+			if (buys < config.buys.display.min || updates.length > config.buys.display.max) continue;
 
 			result[buys] ??= {};
 			result[buys][address] = updates;

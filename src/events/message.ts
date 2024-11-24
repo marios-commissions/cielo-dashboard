@@ -35,7 +35,7 @@ export async function handler(event: NewMessageEvent) {
 
 	const updates = store.store[address] ?? [];
 
-	if (updates?.length >= config.minimumBuys.tts) {
+	if (updates.length >= config.buys.tts.min && updates.length < config.buys.tts.max) {
 		events.emit('tts', `${name}, ${updates.length}`);
 	}
 
