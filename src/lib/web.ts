@@ -34,6 +34,7 @@ ws.on('connection', (socket) => {
 	events.on('store-updated', sendUpdate);
 	events.on('tts', sendTTS);
 
+	socket.on('open', sendUpdate);
 	socket.on('error', console.error);
 
 	socket.on('close', () => {
@@ -42,7 +43,6 @@ ws.on('connection', (socket) => {
 		events.off('tts', sendTTS);
 	});
 
-	sendUpdate();
 });
 
 ws.on('listening', () => {
